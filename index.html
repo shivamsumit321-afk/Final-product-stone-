@@ -396,4 +396,50 @@ function goTo(n) {
   const slide  = slides[n];
   const trackW = track.offsetWidth;
   const slideW = slide.offsetWidth;
-  
+  track.scrollTo({ left: slide.offsetLeft - trackW / 2 + slideW / 2, behavior: 'smooth' });
+}
+
+// Arrow buttons
+document.getElementById('prev').onclick = () => goTo(cur - 1);
+document.getElementById('next').onclick = () => goTo(cur + 1);
+
+// Touch / swipe support
+let touchX = 0;
+track.addEventListener('touchstart', e => { touchX = e.touches[0].clientX; }, { passive: true });
+track.addEventListener('touchend',   e => {
+  const diff = touchX - e.changedTouches[0].clientX;
+  if (Math.abs(diff) > 40) goTo(cur + (diff > 0 ? 1 : -1));
+}, { passive: true });
+
+// Keep dots in sync when user finger-scrolls freely
+track.addEventListener('scroll', () => {
+  const centre = track.scrollLeft + track.offsetWidth / 2;
+  let closest = 0, minDist = Infinity;
+  slides.forEach((s, i) => {
+    const dist = Math.abs(s.offsetLeft + s.offsetWidth / 2 - centre);
+    if (dist < minDist) { minDist = dist; closest = i; }
+  });
+  if (closest !== cur) {
+    cur = closest;
+    slides.forEach((s, i) => s.classList.toggle('active', i === cur));
+    [...dotsEl.querySelectorAll('.dot')].forEach((d, i) => d.classList.toggle('on', i === cur));
+  }
+}, { passive: true });
+
+// Auto-advance every 5 s
+setInterval(() => goTo((cur + 1) % slides.length), 5000);
+
+// Init
+window.addEventListener('load',   () => goTo(0));
+window.addEventListener('resize', () => goTo(cur));
+
+// ── Smooth anchor scroll ────────────────────────────
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    const t = document.querySelector(a.getAttribute('href'));
+    if (t) { e.preventDefault(); window.scrollTo({ top: t.getBoundingClientRect().top + scrollY - 60, behavior: 'smooth' }); }
+  });
+});
+</script>
+</body>
+</html>
