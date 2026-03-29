@@ -371,74 +371,113 @@ footer{background:#050f09;padding:36px 20px;text-align:center;border-top:1px sol
         </div>
         <div class="vname">— प्रिया सिंह, मुंबई</div>
         <div class="vstars">★★★★★</div>
-      <</div>
+      </div>
 
-</div>
-
-</div>
-
-<div class="sdots" id="sdots"></div>
-
+    </div>
+  </div>
+  <div class="sdots" id="sdots"></div>
 </section>
 
-<!-- FOOTER ->
-
+<!-- FOOTER -->
 <footer>
-
-<div class="flogo">
-
-<img src="logo.png" alt="RN Herbal" onerror="this.style.display='none">
-
-<span>RN Herbal</span>
-
-</div>
-
-<p class="ftag">प्रकृति की शक्ति, आपके स्वास्थ्य के लिए</p>
-
-<p class="fdis">* यह product Ayurvedic है। Results may vary. Consult a doctor if needed. यह किसी
-
-बीमारी का medical treatment नहीं है।</p>
-
-<p class="fcopy">© 2026 RN Herbal. All Rights Reserved.</p>
-
+  <div class="flogo">
+    <img src="logo.png" alt="RN Herbal" onerror="this.style.display='none'">
+    <span>RN Herbal</span>
+  </div>
+  <p class="ftag">प्रकृति की शक्ति, आपके स्वास्थ्य के लिए</p>
+  <p class="fdis">* यह product Ayurvedic है। Results may vary. Consult a doctor if needed. यह किसी बीमारी का medical treatment नहीं है।</p>
+  <p class="fcopy">© 2026 RN Herbal. All Rights Reserved.</p>
 </footer>
 
 <script>
-
-// - Sticky nav
-
+// ── Sticky nav ──────────────────────────────────────
 const snav = document.getElementById('snav');
-
 new IntersectionObserver(
-
-([e]) => snav.classList.toggle('show', le.isIntersecting), (threshold: .05)
-
+  ([e]) => snav.classList.toggle('show', !e.isIntersecting),
+  { threshold: .05 }
 ).observe(document.querySelector('.hero'));
 
-// Scroll-snap slider
-
-const track = document.getElementById('vtrack');
-
+// ── Scroll-snap slider ──────────────────────────────
+const track  = document.getElementById('vtrack');
 const slides = [...track.querySelectorAll('.vslide')];
-
-const dotsEl = document.getElementById('sdots'); let cur = 0;
+const dotsEl = document.getElementById('sdots');
+let cur = 0;
 
 // Build dots
-
-slides.forEach((i) => {
-
-const d = document.createElement('span');
-
-d.className = 'dot' + (i ===0?' on': "); d.onclick = () => goTo(i); dotsEl.appendChild(d); });
+slides.forEach((_, i) => {
+  const d = document.createElement('span');
+  d.className = 'dot' + (i === 0 ? ' on' : '');
+  d.onclick = () => goTo(i);
+  dotsEl.appendChild(d);
+});
 
 function goTo(n) {
-
-n = Math.max(0, Math.min(slides.length - 1, n));
-
-cur = n;
-
-} slides.forEach((s, i) => s.classList.toggle('active', i === n)); [...dots El.querySelectorAll('.dot')].forEach((d, i) => d.classList.toggle('on', i === n)); const slide slides[n]; const trackW = track.offsetWidth; const slideW = slide.offsetWidth; track.scrollTo({ left: slide.offsetLeft-trackW/2+ slideW / 2, behavior: 'smooth' });
+  n = Math.max(0, Math.min(slides.length - 1, n));
+  cur = n;
+  slides.forEach((s, i) => s.classList.toggle('active', i === n));
+  [...dotsEl.querySelectorAll('.dot')].forEach((d, i) => d.classList.toggle('on', i === n));
+  const slide  = slides[n];
+  const trackW = track.offsetWidth;
+  const slideW = slide.offsetWidth;
+  track.scrollTo({ left: slide.offsetLeft - trackW / 2 + slideW / 2, behavior: 'smooth' });
+}
 
 // Arrow buttons
+document.getElementById('prev').onclick = () => goTo(cur - 1);
+document.getElementById('next').onclick = () => goTo(cur + 1);
 
-document.getElementById('prev').onclick = () => goTo(cur-1); document.getElementById('next').onclick = () => goTo(cur + 1);
+// Touch / swipe support
+let touchX = 0;
+track.addEventListener('touchstart', e => { touchX = e.touches[0].clientX; }, { passive: true });
+track.addEventListener('touchend',   e => {
+  const diff = touchX - e.changedTouches[0].clientX;
+  if (Math.abs(diff) > 40) goTo(cur + (diff > 0 ? 1 : -1));
+}, { passive: true });
+
+// Keep dots in sync when user finger-scrolls freely
+track.addEventListener('scroll', () => {
+  const centre = track.scrollLeft + track.offsetWidth / 2;
+  let closest = 0, minDist = Infinity;
+  slides.forEach((s, i) => {
+    const dist = Math.abs(s.offsetLeft + s.offsetWidth / 2 - centre);
+    if (dist < minDist) { minDist = dist; closest = i; }
+  });
+  if (closest !== cur) {
+    cur = closest;
+    slides.forEach((s, i) => s.classList.toggle('active', i === cur));
+    [...dotsEl.querySelectorAll('.dot')].forEach((d, i) => d.classList.toggle('on', i === cur));
+  }
+}, { passive: true });
+
+// Auto-advance every 5 s
+setInterval(() => goTo((cur + 1) % slides.length), 5000);
+
+// Init
+window.addEventListener('load',   () => goTo(0));
+window.addEventListener('resize', () => goTo(cur));
+
+// ── Smooth anchor scroll ────────────────────────────
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    const t = document.querySelector(a.getAttribute('href'));
+    if (t) { e.preventDefault(); window.scrollTo({ top: t.getBoundingClientRect().top + scrollY - 60, behavior: 'smooth' }); }
+  });
+});
+</script>
+<!-- STATIONARY FOOTER BAR -->
+<div class="footer-bar">
+  <div class="fb-left">
+    <span class="fb-label">Powered by</span>
+    <span class="fb-brand">Stone Care</span>
+  </div>
+  <div class="fb-center">
+    🌿 100% Ayurvedic &nbsp;·&nbsp; No Surgery &nbsp;·&nbsp; COD Available
+  </div>
+  <div class="fb-right">
+    <div class="fb-trust">🔒 Secure<br>⭐ 4.8 Rated</div>
+    <a href="tel:+919999999999" class="fb-call">📞 Order Now</a>
+  </div>
+</div>
+
+</body>
+</html>
