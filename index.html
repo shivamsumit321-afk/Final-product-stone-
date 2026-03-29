@@ -35,6 +35,56 @@ img{max-width:100%;display:block}
 .hero::before{content:'';position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse at 20% 40%,rgba(61,191,119,.10) 0%,transparent 55%),radial-gradient(ellipse at 85% 60%,rgba(201,168,76,.07) 0%,transparent 50%)}
 .hero-top{position:relative;z-index:2;width:100%;max-width:1100px;padding:18px 28px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(255,255,255,.08);margin-bottom:0}
 .hero-logo img{height:52px;filter:drop-shadow(0 3px 10px rgba(0,0,0,.4))}
+
+/* STONE CARE brand wordmark */
+.brand-text{display:flex;flex-direction:column;line-height:1;gap:2px}
+.brand-text .brand-main{
+  font-family:'Playfair Display',serif;
+  font-weight:900;
+  font-size:1.55rem;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  color:#fff;
+  text-shadow:0 2px 12px rgba(0,0,0,.35);
+}
+.brand-text .brand-main em{font-style:normal;color:var(--goldf)}
+.brand-text .brand-sub{
+  font-family:'Poppins',sans-serif;
+  font-size:.52rem;
+  font-weight:600;
+  letter-spacing:.3em;
+  text-transform:uppercase;
+  color:rgba(255,255,255,.45);
+}
+
+/* STATIONARY FOOTER BAR */
+.footer-bar{
+  position:fixed;bottom:0;left:0;right:0;z-index:998;
+  background:linear-gradient(90deg,#0a1f2e 0%,#0d2e1f 50%,#1a1005 100%);
+  border-top:1px solid rgba(201,168,76,.25);
+  box-shadow:0 -4px 24px rgba(0,0,0,.4);
+  display:flex;align-items:center;justify-content:space-between;
+  padding:10px 20px;gap:12px;
+}
+.fb-left{display:flex;flex-direction:column;gap:1px}
+.fb-left .fb-label{font-size:.58rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.3)}
+.fb-left .fb-brand{font-family:'Playfair Display',serif;font-size:.9rem;font-weight:700;color:var(--goldf);letter-spacing:.08em}
+.fb-center{font-size:.68rem;color:rgba(255,255,255,.35);text-align:center;display:none;line-height:1.5}
+.fb-right{display:flex;align-items:center;gap:8px;flex-shrink:0}
+.fb-call{
+  display:inline-flex;align-items:center;gap:6px;
+  background:linear-gradient(135deg,#2d9b5f,#1a6644);
+  color:#fff;font-size:.78rem;font-weight:700;
+  padding:9px 18px;border-radius:8px;
+  border:none;cursor:pointer;text-decoration:none;
+  box-shadow:0 3px 0 #0a3d20,0 6px 16px rgba(0,0,0,.3);
+  transition:transform .2s,box-shadow .2s;white-space:nowrap;
+}
+.fb-call:hover{transform:translateY(-2px);box-shadow:0 5px 0 #0a3d20,0 10px 20px rgba(0,0,0,.35)}
+.fb-call:active{transform:translateY(1px);box-shadow:0 1px 0 #0a3d20}
+.fb-trust{font-size:.6rem;color:rgba(255,255,255,.3);text-align:center;line-height:1.5}
+body{padding-bottom:64px}
+@media(min-width:480px){.fb-center{display:block}}
 .hero-body{position:relative;z-index:2;text-align:center;padding:36px 20px 0;max-width:720px}
 .pill{display:inline-flex;align-items:center;gap:7px;background:rgba(232,96,26,.85);color:#fff;font-size:.7rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:5px 16px;border-radius:50px;margin-bottom:18px;animation:pulse 2s ease-in-out infinite}
 @keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(232,96,26,.5)}50%{box-shadow:0 0 0 8px rgba(232,96,26,0)}}
@@ -197,8 +247,10 @@ footer{background:#050f09;padding:36px 20px;text-align:center;border-top:1px sol
 <nav class="snav" id="snav">
   <div class="snav-in">
     <div class="snav-logo">
-      <img src="logo.png" alt="RN Herbal" onerror="this.style.display='none'">
-      <span>RN Herbal</span>
+      <div style="display:flex;flex-direction:column;line-height:1;gap:1px">
+        <span style="font-family:'Playfair Display',serif;font-weight:900;font-size:1.1rem;letter-spacing:.1em;text-transform:uppercase;color:var(--g1)">Stone <span style="color:var(--gold)">Care</span></span>
+        <span style="font-family:'Poppins',sans-serif;font-size:.48rem;font-weight:600;letter-spacing:.28em;text-transform:uppercase;color:var(--txm)">Natural Ayurvedic Remedy</span>
+      </div>
     </div>
     <a href="#order" class="btn">🛒 Order Now</a>
   </div>
@@ -207,8 +259,9 @@ footer{background:#050f09;padding:36px 20px;text-align:center;border-top:1px sol
 <!-- HERO -->
 <header class="hero" id="top">
   <div class="hero-top">
-    <div class="hero-logo">
-      <img src="logo.png" alt="RN Herbal" onerror="this.style.display='none'">
+    <div class="brand-text">
+      <span class="brand-main">Stone <em>Care</em></span>
+      <span class="brand-sub">Natural Ayurvedic Remedy</span>
     </div>
     <a href="#order" class="btn">🛒 Order Now</a>
   </div>
@@ -420,5 +473,20 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
   });
 });
 </script>
+<!-- STATIONARY FOOTER BAR -->
+<div class="footer-bar">
+  <div class="fb-left">
+    <span class="fb-label">Powered by</span>
+    <span class="fb-brand">Stone Care</span>
+  </div>
+  <div class="fb-center">
+    🌿 100% Ayurvedic &nbsp;·&nbsp; No Surgery &nbsp;·&nbsp; COD Available
+  </div>
+  <div class="fb-right">
+    <div class="fb-trust">🔒 Secure<br>⭐ 4.8 Rated</div>
+    <a href="tel:+919999999999" class="fb-call">📞 Order Now</a>
+  </div>
+</div>
+
 </body>
 </html>
